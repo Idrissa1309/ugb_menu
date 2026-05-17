@@ -1,0 +1,292 @@
+{
+  "restaurants": [
+    {
+      "id": "1",
+      "name": "Resto 1",
+      "weeklyMenu": [
+        {
+          "date": "2026-05-04",
+          "meals": [
+            {
+              "id": "101",
+              "name": "Riz au poulet",
+              "type": "Déjeuner",
+              "description": "Délicieux riz blanc accompagné de poulet mijoté aux épices et légumes.",
+              "imageUrl": "https://images.unsplash.com/photo-1512058560550-42749359a787?q=80&w=400",
+              "restaurantName": "Resto 1",
+              "date": "2026-05-04"
+            },
+            {
+              "id": "102",
+              "name": "Sauté petit pois",
+              "type": "Dîner",
+              "description": "Un sauté de petits pois frais avec de la viande tendre et des carottes.",
+              "imageUrl": "https://images.unsplash.com/photo-1546793665-c74683c339a1?q=80&w=400",
+              "restaurantName": "Resto 1",
+              "date": "2026-05-04"
+            }
+          ]
+        },
+        {
+          "date": "2026-05-05",
+          "meals": [
+            {
+              "id": "103",
+              "name": "Riz au gras rouge",
+              "type": "Déjeuner",
+              "description": "Riz savoureux cuisiné dans une sauce tomate riche avec de la viande et des légumes.",
+              "imageUrl": "https://images.unsplash.com/photo-1604329760661-e71dc83f8f26?q=80&w=400",
+              "restaurantName": "Resto 1",
+              "date": "2026-05-05"
+            },
+            {
+              "id": "104",
+              "name": "Saucisson oeuf frites",
+              "type": "Dîner",
+              "description": "Un repas classique composé de saucisson grillé, d'un oeuf au plat et de frites croustillantes.",
+              "imageUrl": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=400",
+              "restaurantName": "Resto 1",
+              "date": "2026-05-05"
+            }
+          ]
+        },
+        {
+          "date": "2026-05-06",
+          "meals": [
+            {
+              "id": "105",
+              "name": "Riz au poisson blanc",
+              "type": "Déjeuner",
+              "description": "Poisson blanc frais servi avec du riz à la vapeur et une sauce légère.",
+              "imageUrl": "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?q=80&w=400",
+              "restaurantName": "Resto 1",
+              "date": "2026-05-06"
+            },
+            {
+              "id": "106",
+              "name": "Hamburger salade composée",
+              "type": "Dîner",
+              "description": "Hamburger maison servi avec une salade composée fraîche et variée.",
+              "imageUrl": "https://images.unsplash.com/photo-1561758033-d89a9ad46330?q=80&w=400",
+              "restaurantName": "Resto 1",
+              "date": "2026-05-06"
+            }
+          ]
+        },
+        {
+          "date": "2026-05-07",
+          "meals": [
+            {
+              "id": "107",
+              "name": "Mafé-Domada",
+              "type": "Déjeuner",
+              "description": "Ragoût à base de pâte d'arachide, de viande et de légumes, servi avec du riz.",
+              "imageUrl": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=400",
+              "restaurantName": "Resto 1",
+              "date": "2026-05-07"
+            },
+            {
+              "id": "108",
+              "name": "Sauté vermicelles",
+              "type": "Dîner",
+              "description": "Vermicelles sautées avec des petits légumes et des morceaux de poulet.",
+              "imageUrl": "https://images.unsplash.com/photo-1547592166-23ac45744acd?q=80&w=400",
+              "restaurantName": "Resto 1",
+              "date": "2026-05-07"
+            }
+          ]
+        },
+        {
+          "date": "2026-05-08",
+          "meals": [
+            {
+              "id": "109",
+              "name": "Paella",
+              "type": "Déjeuner",
+              "description": "Plat de riz traditionnel espagnol avec des fruits de mer, du poulet et du safran.",
+              "imageUrl": "https://images.unsplash.com/photo-1512058560550-42749359a787?q=80&w=400",
+              "restaurantName": "Resto 1",
+              "date": "2026-05-08"
+            },
+            {
+              "id": "110",
+              "name": "Oeuf sur le plat spaghetti",
+              "type": "Dîner",
+              "description": "Spaghetti servis avec un oeuf au plat et une sauce tomate maison.",
+              "imageUrl": "https://images.unsplash.com/photo-1551183053-bf91a1d81141?q=80&w=400",
+              "restaurantName": "Resto 1",
+              "date": "2026-05-08"
+            }
+          ]
+        },
+        {
+          "date": "2026-05-09",
+          "meals": [
+            {
+              "id": "111",
+              "name": "Riz au poulet",
+              "type": "Déjeuner",
+              "description": "Poulet rôti doré servi sur un lit de riz parfumé.",
+              "imageUrl": "https://images.unsplash.com/photo-1512058560550-42749359a787?q=80&w=400",
+              "restaurantName": "Resto 1",
+              "date": "2026-05-09"
+            },
+            {
+              "id": "112",
+              "name": "Viande hachée frites",
+              "type": "Dîner",
+              "description": "Viande hachée assaisonnée et grillée, servie avec des frites.",
+              "imageUrl": "https://images.unsplash.com/photo-1551782450-a2132b4ba21d?q=80&w=400",
+              "restaurantName": "Resto 1",
+              "date": "2026-05-09"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Resto 2",
+      "weeklyMenu": [
+        {
+          "date": "2026-05-04",
+          "meals": [
+            {
+              "id": "201",
+              "name": "Mafé-Domada",
+              "type": "Déjeuner",
+              "description": "Plat traditionnel africain à base de sauce arachide, viande et légumes.",
+              "imageUrl": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=400",
+              "restaurantName": "Resto 2",
+              "date": "2026-05-04"
+            },
+            {
+              "id": "202",
+              "name": "Viande au four frites",
+              "type": "Dîner",
+              "description": "Viande rôtie au four servie avec des frites croustillantes.",
+              "imageUrl": "https://images.unsplash.com/photo-1600891964599-f61ba0e24092?q=80&w=400",
+              "restaurantName": "Resto 2",
+              "date": "2026-05-04"
+            }
+          ]
+        },
+        {
+          "date": "2026-05-05",
+          "meals": [
+            {
+              "id": "203",
+              "name": "Paella",
+              "type": "Déjeuner",
+              "description": "Mélange savoureux de riz, fruits de mer et épices.",
+              "imageUrl": "https://images.unsplash.com/photo-1512058560550-42749359a787?q=80&w=400",
+              "restaurantName": "Resto 2",
+              "date": "2026-05-05"
+            },
+            {
+              "id": "204",
+              "name": "Omelette au fine herbe frites",
+              "type": "Dîner",
+              "description": "Omelette légère aux herbes fraîches accompagnée de frites.",
+              "imageUrl": "https://images.unsplash.com/photo-1510693206972-df098062cb71?q=80&w=400",
+              "restaurantName": "Resto 2",
+              "date": "2026-05-05"
+            }
+          ]
+        },
+        {
+          "date": "2026-05-06",
+          "meals": [
+            {
+              "id": "205",
+              "name": "Thiou tomate-cary",
+              "type": "Déjeuner",
+              "description": "Poisson ou viande dans une sauce tomate épicée au curry.",
+              "imageUrl": "https://images.unsplash.com/photo-1546539782-6fc53145308f?q=80&w=400",
+              "restaurantName": "Resto 2",
+              "date": "2026-05-06"
+            },
+            {
+              "id": "206",
+              "name": "Boulette de viande spaghetti",
+              "type": "Dîner",
+              "description": "Spaghetti italiens servis avec des boulettes de viande savoureuses.",
+              "imageUrl": "https://images.unsplash.com/photo-1529042410759-befb1204b468?q=80&w=400",
+              "restaurantName": "Resto 2",
+              "date": "2026-05-06"
+            }
+          ]
+        },
+        {
+          "date": "2026-05-07",
+          "meals": [
+            {
+              "id": "207",
+              "name": "Riz au poulet",
+              "type": "Déjeuner",
+              "description": "Un plat de riz délicieux avec du poulet cuit à la perfection.",
+              "imageUrl": "https://images.unsplash.com/photo-1512058560550-42749359a787?q=80&w=400",
+              "restaurantName": "Resto 2",
+              "date": "2026-05-07"
+            },
+            {
+              "id": "208",
+              "name": "Hamburger salade composée",
+              "type": "Dîner",
+              "description": "Burger gourmand accompagné d'une salade fraîche.",
+              "imageUrl": "https://images.unsplash.com/photo-1561758033-d89a9ad46330?q=80&w=400",
+              "restaurantName": "Resto 2",
+              "date": "2026-05-07"
+            }
+          ]
+        },
+        {
+          "date": "2026-05-08",
+          "meals": [
+            {
+              "id": "209",
+              "name": "Riz au poisson rouge diaga",
+              "type": "Déjeuner",
+              "description": "Riz au poisson avec une sauce tomate intense et des légumes.",
+              "imageUrl": "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?q=80&w=400",
+              "restaurantName": "Resto 2",
+              "date": "2026-05-08"
+            },
+            {
+              "id": "210",
+              "name": "Vermicelle frcassé de poulet",
+              "type": "Dîner",
+              "description": "Vermicelles fines avec un fricassé de poulet onctueux.",
+              "imageUrl": "https://images.unsplash.com/photo-1547592166-23ac45744acd?q=80&w=400",
+              "restaurantName": "Resto 2",
+              "date": "2026-05-08"
+            }
+          ]
+        },
+        {
+          "date": "2026-05-09",
+          "meals": [
+            {
+              "id": "211",
+              "name": "Riz cantonais",
+              "type": "Déjeuner",
+              "description": "Riz sauté à la chinoise avec des légumes et de la viande.",
+              "imageUrl": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?q=80&w=400",
+              "restaurantName": "Resto 2",
+              "date": "2026-05-09"
+            },
+            {
+              "id": "212",
+              "name": "Sauté de boeuf salade composée",
+              "type": "Dîner",
+              "description": "Boeuf sauté savoureux servi avec une salade variée.",
+              "imageUrl": "https://images.unsplash.com/photo-1534939561126-755c696d493a?q=80&w=400",
+              "restaurantName": "Resto 2",
+              "date": "2026-05-09"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

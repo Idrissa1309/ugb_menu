@@ -1,0 +1,45 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.UGBMenu" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorOnPrimary">@color/on_primary</item>
+        <item name="colorPrimaryContainer">#D1E7D1</item>
+        <item name="colorOnPrimaryContainer">#00210A</item>
+
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorOnSecondary">@color/on_secondary</item>
+        <item name="colorSecondaryContainer">#FFE082</item>
+        <item name="colorOnSecondaryContainer">#251A00</item>
+
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <style name="Theme.UGBMenu" parent="Base.Theme.UGBMenu" />
+
+    <style name="Theme.UGBMenu.Blue" parent="Base.Theme.UGBMenu">
+        <item name="colorPrimary">@color/blue_primary</item>
+        <item name="colorPrimaryContainer">#B3E5FC</item>
+    </style>
+
+    <style name="Theme.UGBMenu.Black" parent="Base.Theme.UGBMenu">
+        <item name="colorPrimary">@color/black_primary</item>
+        <item name="colorPrimaryContainer">#E0E0E0</item>
+    </style>
+
+    <style name="Theme.UGBMenu.Maroon" parent="Base.Theme.UGBMenu">
+        <item name="colorPrimary">@color/maroon_primary</item>
+        <item name="colorPrimaryContainer">#FFCDD2</item>
+    </style>
+
+    <style name="RoundedCorners" parent="">
+        <item name="cornerSize">12dp</item>
+    </style>
+
+    <style name="RatingBarTheme" parent="Theme.Material3.Light">
+        <item name="colorControlNormal">#757575</item>
+        <item name="colorControlActivated">#FFC107</item>
+    </style>
+</resources>
