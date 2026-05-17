@@ -96,6 +96,10 @@ public class HomeRestoSummaryAdapter extends RecyclerView.Adapter<HomeRestoSumma
             boolean hasDinner = false;
 
             for (Meal meal : meals) {
+                // Ensure meal has contextual info
+                meal.setRestaurantName(restaurant.getName());
+                meal.setDate(selectedDay.getDate());
+
                 if ("Déjeuner".equals(meal.getType())) {
                     hasLunch = true;
                     holder.binding.tvLunchName.setText(meal.getName());
@@ -105,7 +109,7 @@ public class HomeRestoSummaryAdapter extends RecyclerView.Adapter<HomeRestoSumma
                             .centerCrop()
                             .into(holder.binding.ivLunchImage);
                     
-                    holder.binding.layoutLunch.setOnClickListener(v -> navigateToDetail(holder, meal));
+                    holder.binding.layoutLunch.setOnClickListener(v -> navigateToDetail(holder, meal, meals));
                 } else if ("Dîner".equals(meal.getType())) {
                     hasDinner = true;
                     holder.binding.tvDinnerName.setText(meal.getName());
@@ -115,7 +119,7 @@ public class HomeRestoSummaryAdapter extends RecyclerView.Adapter<HomeRestoSumma
                             .centerCrop()
                             .into(holder.binding.ivDinnerImage);
 
-                    holder.binding.layoutDinner.setOnClickListener(v -> navigateToDetail(holder, meal));
+                    holder.binding.layoutDinner.setOnClickListener(v -> navigateToDetail(holder, meal, meals));
                 }
             }
 
@@ -125,9 +129,10 @@ public class HomeRestoSummaryAdapter extends RecyclerView.Adapter<HomeRestoSumma
         }
     }
 
-    private void navigateToDetail(ViewHolder holder, Meal meal) {
+    private void navigateToDetail(ViewHolder holder, Meal meal, List<Meal> allMeals) {
         Intent intent = new Intent(holder.itemView.getContext(), MealDetailActivity.class);
         intent.putExtra(MealDetailActivity.EXTRA_MEAL, meal);
+        intent.putExtra("extra_todays_meals", new java.util.ArrayList<>(allMeals));
         holder.itemView.getContext().startActivity(intent);
     }
 

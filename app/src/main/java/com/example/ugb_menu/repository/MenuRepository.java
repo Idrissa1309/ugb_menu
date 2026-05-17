@@ -24,6 +24,10 @@ import java.nio.channels.FileChannel;
 import java.io.FileOutputStream;
 import android.util.Log;
 
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import com.google.firebase.firestore.Source;
+
 public class MenuRepository {
     private final Context context;
     private final Gson gson;
@@ -41,27 +45,24 @@ public class MenuRepository {
     }
 
     public void getMenuAsync(Callback<List<Restaurant>> callback) {
-        Log.d("MenuRepository", "Fetching restaurants from Firestore...");
-        db.collection("restaurants").get().addOnCompleteListener(task -> {
-            if (task.isSuccessful() && task.getResult() != null) {
+        if (!isNetworkAvailable()) {
+            Log.d("MenuRepository", "No network available, using cache.");
+            fallbackToCache(callback);
+            return;
+        }
+
+        Log.d("MenuRepository", "Fetching restaurants from Firestore (SERVER)...");
+        db.collection("restaurants").get(Source.SERVER).addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult() != null && !task.getResult().isEmpty()) {
                 List<Restaurant> restaurants = new ArrayList<>();
-                Log.d("MenuRepository", "Firestore successful, documents count: " + task.getResult().size());
-                
                 for (QueryDocumentSnapshot document : task.getResult()) {
-                    Log.d("MenuRepository", "Document ID: " + document.getId() + " Data: " + document.getData());
                     try {
                         Restaurant restaurant = document.toObject(Restaurant.class);
                         if (restaurant != null) {
                             restaurants.add(restaurant);
-                            Log.d("MenuRepository", "Parsed restaurant: " + restaurant.getName());
-                            if (restaurant.getWeeklyMenu() != null) {
-                                Log.d("MenuRepository", "Weekly menu size: " + restaurant.getWeeklyMenu().size());
-                            } else {
-                                Log.w("MenuRepository", "Weekly menu is NULL for " + restaurant.getName());
-                            }
                         }
                     } catch (Exception e) {
-                        Log.e("MenuRepository", "Error parsing restaurant document: " + document.getId(), e);
+                        Log.e("MenuRepository", "Error parsing restaurant: " + document.getId(), e);
                     }
                 }
                 
@@ -69,14 +70,46 @@ public class MenuRepository {
                     saveToCache(gson.toJson(new MenuResponse(restaurants)));
                     callback.onResult(restaurants);
                 } else {
-                    Log.w("MenuRepository", "Restaurants list is empty after parsing");
                     fallbackToCache(callback);
                 }
             } else {
-                Log.e("MenuRepository", "Firestore fetch failed or result is null", task.getException());
+                Log.e("MenuRepository", "Firestore fetch failed, fallback to cache", task.getException());
                 fallbackToCache(callback);
             }
         });
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null;
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    /**
+     * Helper to upload local assets/menu.json to Firestore.
+     * Use this only for initialization or admin purposes.
+     */
+    public void uploadLocalMenuToFirestore(Callback<Boolean> callback) {
+        String json = loadJSONFromAsset("menu.json");
+        List<Restaurant> restaurants = parseJson(json);
+        
+        if (restaurants.isEmpty()) {
+            callback.onResult(false);
+            return;
+        }
+
+        for (Restaurant restaurant : restaurants) {
+            db.collection("restaurants").document(restaurant.getId())
+                    .set(restaurant)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Log.d("MenuRepository", "Uploaded " + restaurant.getName());
+                        } else {
+                            Log.e("MenuRepository", "Failed to upload " + restaurant.getName(), task.getException());
+                        }
+                    });
+        }
+        callback.onResult(true);
     }
 
     private void fallbackToCache(Callback<List<Restaurant>> callback) {
@@ -146,7 +179,7 @@ public class MenuRepository {
      * @param dateStr Date in "yyyy-MM-dd" format
      * @return The index or -1 if not found.
      */
-    public int getDayIndexForDate(String dateStr, List<Restaurant> restaurants) {
+    public static int getDayIndexForDate(String dateStr, List<Restaurant> restaurants) {
         if (restaurants == null || restaurants.isEmpty()) {
             Log.w("MenuRepository", "getDayIndexForDate: restaurants list is empty");
             return -1;

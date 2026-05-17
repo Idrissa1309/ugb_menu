@@ -14,7 +14,7 @@ public class ReviewRepository {
     private final DatabaseReference databaseReference;
 
     public ReviewRepository() {
-        this.databaseReference = FirebaseDatabase.getInstance().getReference("reviews");
+        this.databaseReference = FirebaseDatabase.getInstance("https://ugb-menu-default-rtdb.firebaseio.com/").getReference("reviews");
     }
 
     public void addReview(Review review) {
@@ -31,7 +31,9 @@ public class ReviewRepository {
                 List<Review> reviews = new ArrayList<>();
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     Review review = postSnapshot.getValue(Review.class);
-                    reviews.add(review);
+                    if (review != null) {
+                        reviews.add(review);
+                    }
                 }
                 callback.onResult(reviews);
             }
@@ -43,7 +45,35 @@ public class ReviewRepository {
         });
     }
 
+    public void getAverageRatingForMeal(String mealId, final AverageRatingCallback callback) {
+        databaseReference.child(mealId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                float totalRating = 0;
+                int count = 0;
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    Review review = postSnapshot.getValue(Review.class);
+                    if (review != null) {
+                        totalRating += review.getRating();
+                        count++;
+                    }
+                }
+                float average = count > 0 ? totalRating / count : 0;
+                callback.onResult(average, count);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                callback.onResult(0, 0);
+            }
+        });
+    }
+
     public interface ReviewsCallback {
         void onResult(List<Review> reviews);
+    }
+
+    public interface AverageRatingCallback {
+        void onResult(float averageRating, int count);
     }
 }

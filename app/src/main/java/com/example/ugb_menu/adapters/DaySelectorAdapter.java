@@ -59,6 +59,13 @@ public class DaySelectorAdapter extends RecyclerView.Adapter<DaySelectorAdapter.
         });
     }
 
+    public void setSelectedPosition(int position) {
+        int oldPosition = selectedPosition;
+        this.selectedPosition = position;
+        notifyItemChanged(oldPosition);
+        notifyItemChanged(selectedPosition);
+    }
+
     @Override
     public int getItemCount() {
         return days.size();

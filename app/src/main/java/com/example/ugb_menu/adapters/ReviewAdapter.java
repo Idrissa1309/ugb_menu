@@ -18,6 +18,8 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
 
     public ReviewAdapter(List<Review> reviews) {
         this.reviews = reviews;
+        // Sort reviews by timestamp (most recent first)
+        java.util.Collections.sort(this.reviews, (r1, r2) -> Long.compare(r2.getTimestamp(), r1.getTimestamp()));
     }
 
     @NonNull

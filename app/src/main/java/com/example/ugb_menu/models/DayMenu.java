@@ -1,8 +1,9 @@
 package com.example.ugb_menu.models;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class DayMenu {
+public class DayMenu implements Serializable {
     private String date;
     private List<Meal> meals;
 

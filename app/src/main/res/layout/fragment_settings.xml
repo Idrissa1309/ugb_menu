@@ -65,6 +65,7 @@
                             android:layout_height="wrap_content"
                             android:text="Notifications de favoris"
                             android:textColor="#333333"
+                            android:layout_centerVertical="true"
                             android:textSize="16sp" />
                         <com.google.android.material.switchmaterial.SwitchMaterial
                             android:id="@+id/switch_notifications"
@@ -84,6 +85,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Mode sombre"
+                            android:layout_centerVertical="true"
                             android:textColor="#333333"
                             android:textSize="16sp" />
                         <com.google.android.material.switchmaterial.SwitchMaterial

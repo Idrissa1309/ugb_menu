@@ -1,10 +1,11 @@
 package com.example.ugb_menu.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Restaurant {
+public class Restaurant implements Serializable {
     private String id;
     private String name;
     private List<DayMenu> weeklyMenu;

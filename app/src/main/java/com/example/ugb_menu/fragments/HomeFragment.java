@@ -12,6 +12,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import com.example.ugb_menu.adapters.HomeRestoSummaryAdapter;
 import com.example.ugb_menu.databinding.FragmentHomeBinding;
+import androidx.lifecycle.ViewModelProvider;
+import com.example.ugb_menu.viewmodels.MenuViewModel;
 import com.example.ugb_menu.models.Restaurant;
 import com.example.ugb_menu.repository.MenuRepository;
 import java.text.SimpleDateFormat;
@@ -23,7 +25,7 @@ import java.util.Locale;
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
-    private MenuRepository menuRepository;
+    private MenuViewModel menuViewModel;
 
     @Nullable
     @Override
@@ -35,7 +37,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        menuRepository = new MenuRepository(requireContext());
+        menuViewModel = new ViewModelProvider(this).get(MenuViewModel.class);
         
         // Handle window insets to avoid taskbar overflow
         ViewCompat.setOnApplyWindowInsetsListener(binding.getRoot(), (v, insets) -> {
@@ -45,10 +47,47 @@ public class HomeFragment extends Fragment {
         });
 
         updateDateUI();
-        
-        // Show shimmer while loading
-        showLoading(true);
-        setupRecyclerView();
+        observeViewModel();
+    }
+
+    private void observeViewModel() {
+        menuViewModel.getIsLoading().observe(getViewLifecycleOwner(), this::showLoading);
+
+        menuViewModel.getRestaurants().observe(getViewLifecycleOwner(), restaurants -> {
+            if (restaurants == null || restaurants.isEmpty()) {
+                binding.rvTodaySummary.setVisibility(View.GONE);
+                binding.layoutEmptyState.setVisibility(View.VISIBLE);
+                return;
+            }
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            String todayStr = sdf.format(new Date());
+
+            int index = MenuRepository.getDayIndexForDate(todayStr, restaurants);
+
+            if (index != -1) {
+                binding.layoutEmptyState.setVisibility(View.GONE);
+                binding.rvTodaySummary.setVisibility(View.VISIBLE);
+                HomeRestoSummaryAdapter adapter = new HomeRestoSummaryAdapter(restaurants);
+                adapter.setSelectedDayIndex(index);
+                binding.rvTodaySummary.setLayoutManager(new LinearLayoutManager(requireContext()));
+                binding.rvTodaySummary.setAdapter(adapter);
+            } else {
+                // Fallback to first day if today's menu is not available
+                binding.layoutEmptyState.setVisibility(View.GONE);
+                binding.rvTodaySummary.setVisibility(View.VISIBLE);
+                HomeRestoSummaryAdapter adapter = new HomeRestoSummaryAdapter(restaurants);
+                adapter.setSelectedDayIndex(0);
+                binding.rvTodaySummary.setLayoutManager(new LinearLayoutManager(requireContext()));
+                binding.rvTodaySummary.setAdapter(adapter);
+            }
+        });
+
+        menuViewModel.getErrorMessage().observe(getViewLifecycleOwner(), error -> {
+            if (error != null) {
+                android.widget.Toast.makeText(requireContext(), error, android.widget.Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void updateDateUI() {
@@ -73,94 +112,6 @@ public class HomeFragment extends Fragment {
         if (binding == null) return;
         binding.layoutShimmer.getRoot().setVisibility(isLoading ? View.VISIBLE : View.GONE);
         binding.rvTodaySummary.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-    }
-
-   /*
-   private void setupRecyclerView() {
-        if (binding == null) return;
-        
-        menuRepository.getMenuAsync(restaurants -> {
-            if (binding == null) return;
-            
-            requireActivity().runOnUiThread(() -> {
-                if (restaurants.isEmpty()) {
-                    showLoading(false);
-                    binding.rvTodaySummary.setVisibility(View.GONE);
-                    binding.layoutEmptyState.setVisibility(View.VISIBLE);
-                    return;
-                }
-
-                binding.layoutEmptyState.setVisibility(View.GONE);
-                HomeRestoSummaryAdapter adapter = new HomeRestoSummaryAdapter(restaurants);
-                
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                String todayStr = sdf.format(new Date());
-
-                int index = menuRepository.getDayIndexForDate(todayStr, restaurants);
-                
-                if (index != -1) {
-                    adapter.setSelectedDayIndex(index);
-                } else {
-                    binding.rvTodaySummary.setVisibility(View.GONE);
-                    binding.layoutEmptyState.setVisibility(View.VISIBLE);
-                    showLoading(false);
-                    return;
-                }
-
-                showLoading(false);
-                binding.rvTodaySummary.setLayoutManager(new LinearLayoutManager(requireContext()));
-                binding.rvTodaySummary.setAdapter(adapter);
-            });
-        });
-    }
-    */
-    // Dans HomeFragment.java, modifiez setupRecyclerView :
-
-    private void setupRecyclerView() {
-        if (binding == null) return;
-
-        menuRepository.getMenuAsync(restaurants -> {
-            if (binding == null) return;
-
-            requireActivity().runOnUiThread(() -> {
-                showLoading(false);
-
-                if (restaurants == null || restaurants.isEmpty()) {
-                    android.widget.Toast.makeText(requireContext(), "Firestore : Liste vide", android.widget.Toast.LENGTH_SHORT).show();
-                    binding.rvTodaySummary.setVisibility(View.GONE);
-                    binding.layoutEmptyState.setVisibility(View.VISIBLE);
-                    return;
-                }
-
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                String todayStr = sdf.format(new Date());
-
-                // LOG pour vérifier la date cherchée
-                android.util.Log.d("UGB_DEBUG", "Date cherchée : " + todayStr);
-
-                 int index = menuRepository.getDayIndexForDate(todayStr, restaurants);
-
-                if (index != -1) {
-                    binding.layoutEmptyState.setVisibility(View.GONE);
-                    binding.rvTodaySummary.setVisibility(View.VISIBLE);
-                    HomeRestoSummaryAdapter adapter = new HomeRestoSummaryAdapter(restaurants);
-                    adapter.setSelectedDayIndex(index);
-                    binding.rvTodaySummary.setLayoutManager(new LinearLayoutManager(requireContext()));
-                    binding.rvTodaySummary.setAdapter(adapter);
-                } else {
-                    // Si la date ne correspond pas, on affiche quand même le premier jour pour tester
-                    android.widget.Toast.makeText(requireContext(), "Date non trouvée : " + todayStr, android.widget.Toast.LENGTH_LONG).show();
-
-                    // FORCE l'affichage du premier jour pour vérifier que la donnée est là
-                    binding.layoutEmptyState.setVisibility(View.GONE);
-                    binding.rvTodaySummary.setVisibility(View.VISIBLE);
-                    HomeRestoSummaryAdapter adapter = new HomeRestoSummaryAdapter(restaurants);
-                    adapter.setSelectedDayIndex(0);
-                    binding.rvTodaySummary.setLayoutManager(new LinearLayoutManager(requireContext()));
-                    binding.rvTodaySummary.setAdapter(adapter);
-                }
-            });
-        });
     }
 
     @Override
