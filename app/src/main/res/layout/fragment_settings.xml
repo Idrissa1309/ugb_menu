@@ -212,6 +212,19 @@
                         android:textColor="#333333"
                         android:drawableEnd="@drawable/ic_more"
                         app:drawableTint="#CCCCCC" />
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#EEEEEE" />
+
+                    <TextView
+                        android:id="@+id/btn_admin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:text="Espace Administration"
+                        android:textColor="?attr/colorPrimary"
+                        android:textStyle="bold"
+                        app:drawableEndCompat="@drawable/ic_more"
+                        app:drawableTint="?attr/colorPrimary" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 

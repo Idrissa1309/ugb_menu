@@ -142,8 +142,13 @@ public class MenusFragment extends Fragment {
             adapter.setSelectedPosition(todayIndex);
             // The listener won't trigger automatically on setSelectedPosition, so we trigger manual update
             int menuIndex = MenuRepository.getDayIndexForDate(today, restaurants);
-            if (menuIndex != -1 && menuAdapter != null) {
-                menuAdapter.setSelectedDayIndex(menuIndex);
+            if (menuIndex != -1) {
+                if (menuAdapter == null) {
+                    setupMenuRecyclerView();
+                }
+                if (menuAdapter != null) {
+                    menuAdapter.setSelectedDayIndex(menuIndex);
+                }
             }
         }
     }

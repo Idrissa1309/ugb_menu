@@ -1,5 +1,6 @@
 package com.example.ugb_menu.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
+import com.example.ugb_menu.admin.AdminLoginActivity;
 import com.example.ugb_menu.databinding.FragmentSettingsBinding;
 import com.example.ugb_menu.utils.ThemeManager;
 import com.example.ugb_menu.R;
@@ -63,6 +65,11 @@ public class SettingsFragment extends Fragment {
         binding.btnContact.setOnClickListener(v -> 
             Toast.makeText(requireContext(), "Redirection vers le support du CROUS...", Toast.LENGTH_SHORT).show()
         );
+
+        binding.btnAdmin.setOnClickListener(v -> {
+            Intent intent = new Intent(requireContext(), AdminLoginActivity.class);
+            startActivity(intent);
+        });
 
         setupThemeSelector();
     }
