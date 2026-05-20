@@ -36,6 +36,7 @@ dependencies {
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
     implementation libs.androidx.constraintlayout
+    implementation libs.cloudinary.android
     implementation libs.material
     implementation libs.gson
     implementation libs.glide

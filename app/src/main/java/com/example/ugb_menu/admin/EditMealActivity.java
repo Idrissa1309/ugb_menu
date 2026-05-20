@@ -16,16 +16,22 @@ import com.example.ugb_menu.R;
 import com.example.ugb_menu.databinding.ActivityEditMealBinding;
 import com.example.ugb_menu.models.Meal;
 import com.google.firebase.firestore.FirebaseFirestore;
+/* Firebase Storage imports
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+*/
+import com.cloudinary.android.MediaManager;
+import com.cloudinary.android.callback.ErrorInfo;
+import com.cloudinary.android.callback.UploadCallback;
 
+import java.util.Map;
 import java.util.UUID;
 
 public class EditMealActivity extends AppCompatActivity {
 
     private ActivityEditMealBinding binding;
     private FirebaseFirestore db;
-    private FirebaseStorage storage;
+    // private FirebaseStorage storage; // Firebase Storage variable
     private Uri imageUri;
     private String restaurantId;
     private String dayId;
@@ -54,7 +60,9 @@ public class EditMealActivity extends AppCompatActivity {
         binding.toolbar.setNavigationOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
 
         db = FirebaseFirestore.getInstance();
+        /* Firebase Storage initialization
         storage = FirebaseStorage.getInstance();
+        */
 
         restaurantId = getIntent().getStringExtra("RESTO_ID");
         dayId = getIntent().getStringExtra("DAY_ID");
@@ -106,6 +114,10 @@ public class EditMealActivity extends AppCompatActivity {
     }
 
     private void uploadImageAndSave(String name, String description, String type) {
+        binding.btnSaveMeal.setEnabled(false);
+        Toast.makeText(this, "Upload de l'image en cours...", Toast.LENGTH_SHORT).show();
+
+        /* --- Option 1: Firebase Storage (Commenté) ---
         String fileName = UUID.randomUUID().toString() + ".jpg";
         StorageReference ref = storage.getReference().child("meals/" + fileName);
 
@@ -114,7 +126,38 @@ public class EditMealActivity extends AppCompatActivity {
                     String mealId = (mealToEdit != null) ? mealToEdit.getId() : UUID.randomUUID().toString();
                     saveToFirestore(mealId, name, description, type, uri.toString());
                 }))
-                .addOnFailureListener(e -> Toast.makeText(this, "Erreur upload : " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                .addOnFailureListener(e -> {
+                    binding.btnSaveMeal.setEnabled(true);
+                    Toast.makeText(this, "Erreur upload Firebase : " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+        */
+
+        /* --- Option 2: Cloudinary (Actif) --- */
+        MediaManager.get().upload(imageUri)
+                .unsigned("VOTRE_UPLOAD_PRESET") // À remplacer par votre upload preset
+                .callback(new UploadCallback() {
+                    @Override
+                    public void onStart(String requestId) {}
+
+                    @Override
+                    public void onProgress(String requestId, long bytes, long totalBytes) {}
+
+                    @Override
+                    public void onSuccess(String requestId, Map resultData) {
+                        String imageUrl = (String) resultData.get("secure_url");
+                        String mealId = (mealToEdit != null) ? mealToEdit.getId() : UUID.randomUUID().toString();
+                        saveToFirestore(mealId, name, description, type, imageUrl);
+                    }
+
+                    @Override
+                    public void onError(String requestId, ErrorInfo error) {
+                        binding.btnSaveMeal.setEnabled(true);
+                        Toast.makeText(EditMealActivity.this, "Erreur Cloudinary : " + error.getDescription(), Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onReschedule(String requestId, ErrorInfo error) {}
+                }).dispatch();
     }
 
     private void saveToFirestore(String mealId, String name, String description, String type, String imageUrl) {
