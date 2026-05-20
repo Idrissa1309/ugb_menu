@@ -198,7 +198,7 @@
                         android:padding="16dp"
                         android:text="À propos de l'application"
                         android:textColor="#333333"
-                        android:drawableEnd="@drawable/ic_more"
+                        app:drawableEndCompat="@drawable/ic_more"
                         app:drawableTint="#CCCCCC" />
 
                     <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#EEEEEE" />

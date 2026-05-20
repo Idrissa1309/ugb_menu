@@ -40,9 +40,34 @@
             android:exported="false"
             android:theme="@style/Theme.UGBMenu" />
 
+        <activity
+            android:name=".admin.AdminLoginActivity"
+            android:exported="true"
+            android:label="Login Admin" />
+
+        <activity
+            android:name=".admin.AdminDashboardActivity"
+            android:exported="false"
+            android:label="Dashboard Admin" />
+
+        <activity
+            android:name=".admin.ManageMenusActivity"
+            android:exported="false"
+            android:label="Gérer les Menus" />
+
+        <activity
+            android:name=".admin.EditMealActivity"
+            android:exported="false"
+            android:label="Modifier Plat" />
+
+        <activity
+            android:name=".admin.ReviewModerationActivity"
+            android:exported="false"
+            android:label="Modération Avis" />
+
         <receiver
             android:name=".utils.MenuWidgetProvider"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
